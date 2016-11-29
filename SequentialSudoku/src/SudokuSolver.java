@@ -6,10 +6,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Definisce un tool per la risoluzione di Sudoku
+ */
 public class SudokuSolver {
     private BigInteger solSpace;
     private long solCount;
 
+    /**
+     * Crea un Sudoku a partire dalla lettura di un file di testo di 9 righe, ognuna di 9 caratteri in [0,9] U {.}
+     * @param filePath stringa rappresentante il percorso del file
+     * @return il Sudoku associato al file dato in input
+     */
     public static Sudoku readSudoku(String filePath){
         Path p=Paths.get(filePath);
         List<String> ss=new ArrayList<>();

@@ -1,6 +1,9 @@
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Definisce un'istanza di Sudoku
+ */
 public class Sudoku {
     private int[][] matrix;
     private int[][] rMatrix;
@@ -14,6 +17,12 @@ public class Sudoku {
         this.qMatrix=qMatrix;
     }
 
+    /**
+     * Restituisce il quadrante relativo ad una cella
+     * @param row la riga della cella
+     * @param col la colonna della cella
+     * @return il quadrante 3x3 della cella
+     */
     public static int getQuad(int row, int col){
         if(row<3){
             if(col<3)
@@ -41,6 +50,12 @@ public class Sudoku {
         }
     }
 
+    /**
+     * Restituisce i possibili valori di una cella tali che rimanga un'istanza legale di Sudoku
+     * @param row la riga della cella
+     * @param col la colonna della cella
+     * @return un insieme di possibili valori per la cella (row,col)
+     */
     public Set<Integer> getCandidates(int row, int col){
         Set<Integer> candidates=new HashSet<>();
 
@@ -52,10 +67,22 @@ public class Sudoku {
         return candidates;
     }
 
+    /**
+     * Restituisce il valore di una cella
+     * @param row la riga della cella
+     * @param col la colonna della cella
+     * @return il valore della cella (row,col)
+     */
     public int getValue(int row, int col){
         return matrix[row][col];
     }
 
+    /**
+     * Imposta il valore di una cella
+     * @param row la riga della cella
+     * @param col la colonna della cella
+     * @param val il valore da inserire nella cella (row,col)
+     */
     public void setValue(int row, int col, int val){
         matrix[row][col]=val;
     }
