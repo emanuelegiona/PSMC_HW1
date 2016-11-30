@@ -3,16 +3,12 @@ import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Definisce un tool per la risoluzione di Sudoku
  */
 public class SudokuSolver {
-    private BigInteger solSpace;
-    private long solCount;
-
     /**
      * Crea un Sudoku a partire dalla lettura di un file di testo di 9 righe, ognuna di 9 caratteri in [0,9] U {.}
      * @param filePath stringa rappresentante il percorso del file
@@ -58,5 +54,39 @@ public class SudokuSolver {
             e.printStackTrace();
         }
         return game;
+    }
+
+    public static void solve(Sudoku game){
+        BigInteger n=BigInteger.ONE;
+        int row=-1;
+        int col=-1;
+        Set<Integer> candidates=new HashSet<>();
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(game.getValue(i,j)==0) {
+                    Set<Integer> currCandidates = game.getCandidates(i, j);
+                    if (game.getSolSpace().equals(BigInteger.ZERO))
+                        n = n.multiply(BigInteger.valueOf(currCandidates.size()));
+                    if (currCandidates.size() < candidates.size() || candidates.size() == 0) {
+                        row = i;
+                        col = j;
+                        candidates = currCandidates;
+                    }
+                }
+            }
+        }
+        if(row==-1 && col==-1) {
+            System.out.println(game);
+            return;
+        }
+        game.setSolSpace(n);
+
+        Iterator<Integer> choice=candidates.iterator();
+        while(choice.hasNext()){
+            Sudoku updatedGame=new Sudoku(game);
+            updatedGame.setValue(row,col,choice.next());
+            choice.remove();
+            solve(updatedGame);
+        }
     }
 }

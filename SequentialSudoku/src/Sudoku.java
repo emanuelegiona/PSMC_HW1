@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,12 +10,79 @@ public class Sudoku {
     private int[][] rMatrix;
     private int[][] cMatrix;
     private int[][] qMatrix;
+    private BigInteger solSpace;
+    private long solCount;
 
     public Sudoku(int[][] matrix, int[][] rMatrix, int[][] cMatrix, int[][] qMatrix){
         this.matrix=matrix;
         this.rMatrix=rMatrix;
         this.cMatrix=cMatrix;
         this.qMatrix=qMatrix;
+        solSpace=BigInteger.ZERO;
+        solCount=0;
+    }
+
+    public Sudoku(Sudoku game){
+        /**/
+        matrix=new int[9][];
+        rMatrix=new int[9][];
+        cMatrix=new int[9][];
+        qMatrix=new int[9][];
+        for(int i=0;i<9;i++){
+            matrix[i]=new int[]{0,0,0,0,0,0,0,0,0};
+            rMatrix[i]=new int[]{0,0,0,0,0,0,0,0,0};
+            cMatrix[i]=new int[]{0,0,0,0,0,0,0,0,0};
+            qMatrix[i]=new int[]{0,0,0,0,0,0,0,0,0};
+        }
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                this.matrix[i][j]=game.matrix[i][j];
+                this.rMatrix[i][j]=game.rMatrix[i][j];
+                this.cMatrix[i][j]=game.cMatrix[i][j];
+                this.qMatrix[i][j]=game.qMatrix[i][j];
+            }
+        }
+        /**/
+        /*
+        this.matrix=game.matrix;
+        this.rMatrix=game.rMatrix;
+        this.cMatrix=game.cMatrix;
+        this.qMatrix=game.qMatrix;
+        */
+        this.solCount=game.solCount;
+        this.solSpace=game.solSpace;
+    }
+
+    /**
+     * Ritorna lo spazio delle soluzioni del Sudoku
+     * @return
+     */
+    public BigInteger getSolSpace() {
+        return solSpace;
+    }
+
+    /**
+     * Imposta lo spazio delle soluzioni del Sudoku
+     * @return
+     */
+    public void setSolSpace(BigInteger solSpace) {
+        this.solSpace = solSpace;
+    }
+
+    /**
+     * Ritorna il numero delle soluzioni legali del Sudoku
+     * @return
+     */
+    public long getSolCount() {
+        return solCount;
+    }
+
+    /**
+     * Imposta il numero delle soluzioni legali del Sudoku
+     * @return
+     */
+    public void setSolCount(long solCount) {
+        this.solCount = solCount;
     }
 
     /**
@@ -85,6 +153,9 @@ public class Sudoku {
      */
     public void setValue(int row, int col, int val){
         matrix[row][col]=val;
+        rMatrix[row][val-1]=1;
+        cMatrix[col][val-1]=1;
+        qMatrix[getQuad(row,col)][val-1]=1;
     }
 
     @Override
