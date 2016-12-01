@@ -13,6 +13,13 @@ public class Sudoku {
     private BigInteger solSpace;
     private long solCount;
 
+    /**
+     * Costruttore esplicito
+     * @param matrix griglia di gioco di questo Sudoku
+     * @param rMatrix per ogni riga, un array caratteristico t.c. rMatrix[i][val]=1 sse nella riga i è presente val+1, 0 altrimenti
+     * @param cMatrix per ogni colonna, un array caratteristico t.c. cMatrix[i][val]=1 sse nella colonna i è presente val+1, 0 altrimenti
+     * @param qMatrix per ogni quadrante, un array caratteristico t.c. qMatrix[i][val]=1 sse nel quadrante i è presente val+1, 0 altrimenti
+     */
     public Sudoku(int[][] matrix, int[][] rMatrix, int[][] cMatrix, int[][] qMatrix){
         this.matrix=matrix;
         this.rMatrix=rMatrix;
@@ -22,8 +29,11 @@ public class Sudoku {
         solCount=0;
     }
 
+    /**
+     * Costruttore a partire da un altro Sudoku, ne esegue la deep copy
+     * @param game il Sudoku da copiare
+     */
     public Sudoku(Sudoku game){
-        /**/
         matrix=new int[9][];
         rMatrix=new int[9][];
         cMatrix=new int[9][];
@@ -42,13 +52,6 @@ public class Sudoku {
                 this.qMatrix[i][j]=game.qMatrix[i][j];
             }
         }
-        /**/
-        /*
-        this.matrix=game.matrix;
-        this.rMatrix=game.rMatrix;
-        this.cMatrix=game.cMatrix;
-        this.qMatrix=game.qMatrix;
-        */
         this.solCount=game.solCount;
         this.solSpace=game.solSpace;
     }
@@ -158,6 +161,10 @@ public class Sudoku {
         qMatrix[getQuad(row,col)][val-1]=1;
     }
 
+    /**
+     * Costruisce la stringa associata al Sudoku
+     * @return la stringa che rappresenta il Sudoku
+     */
     @Override
     public String toString(){
         String s="";
