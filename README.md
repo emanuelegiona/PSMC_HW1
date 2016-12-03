@@ -17,7 +17,7 @@ Backtracking is handled by the recursion call stack.
 >> P.S. Further releases will not optimize this implementation.
 
 ## ParallelSolver
-ParallelSolver implements a the same algorithmic idea of the SequentialSolver, but the recursion is now swapped to parallel computations, instead, using the Fork/Join library.
+ParallelSolver implements the same algorithmic idea as the SequentialSolver, but the recursion is now swapped to parallel computations, instead, using the Fork/Join library.
 
 For each value in valid values' set for a given cell, it forks a solving task.
 
