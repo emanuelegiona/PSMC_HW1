@@ -1,9 +1,11 @@
+package solver;
+
 import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Definisce un'istanza di Sudoku
+ * Definisce un'istanza di solver.Sudoku
  */
 public class Sudoku {
     private int[][] matrix;
@@ -16,7 +18,7 @@ public class Sudoku {
 
     /**
      * Costruttore esplicito
-     * @param matrix griglia di gioco di questo Sudoku
+     * @param matrix griglia di gioco di questo solver.Sudoku
      * @param rMatrix per ogni riga, un array caratteristico t.c. rMatrix[i][val]=1 sse nella riga i è presente val+1, 0 altrimenti
      * @param cMatrix per ogni colonna, un array caratteristico t.c. cMatrix[i][val]=1 sse nella colonna i è presente val+1, 0 altrimenti
      * @param qMatrix per ogni quadrante, un array caratteristico t.c. qMatrix[i][val]=1 sse nel quadrante i è presente val+1, 0 altrimenti
@@ -32,8 +34,8 @@ public class Sudoku {
     }
 
     /**
-     * Costruttore a partire da un altro Sudoku, ne esegue la deep copy
-     * @param game il Sudoku da copiare
+     * Costruttore a partire da un altro solver.Sudoku, ne esegue la deep copy
+     * @param game il solver.Sudoku da copiare
      */
     public Sudoku(Sudoku game){
         matrix=new int[9][];
@@ -60,7 +62,7 @@ public class Sudoku {
     }
 
     /**
-     * Ritorna il numero di celle vuote del Sudoku
+     * Ritorna il numero di celle vuote del solver.Sudoku
      * @return
      */
     public int getEmptyCells() {
@@ -68,7 +70,7 @@ public class Sudoku {
     }
 
     /**
-     * Imposta il numero di celle vuote del Sudoku
+     * Imposta il numero di celle vuote del solver.Sudoku
      * @param emptyCells
      */
     public void setEmptyCells(int emptyCells) {
@@ -76,7 +78,7 @@ public class Sudoku {
     }
 
     /**
-     * Ritorna lo spazio delle soluzioni del Sudoku
+     * Ritorna lo spazio delle soluzioni del solver.Sudoku
      * @return
      */
     public BigInteger getSolSpace() {
@@ -84,7 +86,7 @@ public class Sudoku {
     }
 
     /**
-     * Imposta lo spazio delle soluzioni del Sudoku
+     * Imposta lo spazio delle soluzioni del solver.Sudoku
      * @return
      */
     public void setSolSpace(BigInteger solSpace) {
@@ -92,7 +94,7 @@ public class Sudoku {
     }
 
     /**
-     * Ritorna il numero delle soluzioni legali del Sudoku
+     * Ritorna il numero delle soluzioni legali del solver.Sudoku
      * @return
      */
     public long getSolCount() {
@@ -100,7 +102,7 @@ public class Sudoku {
     }
 
     /**
-     * Imposta il numero delle soluzioni legali del Sudoku
+     * Imposta il numero delle soluzioni legali del solver.Sudoku
      * @return
      */
     public void setSolCount(long solCount) {
@@ -141,7 +143,7 @@ public class Sudoku {
     }
 
     /**
-     * Restituisce i possibili valori di una cella tali che rimanga un'istanza legale di Sudoku
+     * Restituisce i possibili valori di una cella tali che rimanga un'istanza legale di solver.Sudoku
      * @param row la riga della cella
      * @param col la colonna della cella
      * @return un insieme di possibili valori per la cella (row,col)
@@ -181,8 +183,8 @@ public class Sudoku {
     }
 
     /**
-     * Costruisce la stringa associata al Sudoku
-     * @return la stringa che rappresenta il Sudoku
+     * Costruisce la stringa associata al solver.Sudoku
+     * @return la stringa che rappresenta il solver.Sudoku
      */
     @Override
     public String toString(){

@@ -1,4 +1,7 @@
+import java.util.concurrent.ForkJoinPool;
+
 public class Main {
+    public static ForkJoinPool fjp=new ForkJoinPool();
 
     public static void main(String[] args) {
         //String filePath="input.txt";
@@ -12,7 +15,7 @@ public class Main {
             //System.out.println(game);
             System.out.println("Empty cells: " + game.getEmptyCells() + "\nFill factor: " + ((float) (81 - game.getEmptyCells()) / 81) * 100 + "%");
             System.out.println("Search space: " + game.getSolSpace());
-            System.out.println("Sequential solver done in " + time + " ms");
+            System.out.println("Parallel solver done in " + time + " ms");
             System.out.println("Solutions: " + game.getSolCount());
         }
     }

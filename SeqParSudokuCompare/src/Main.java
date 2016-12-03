@@ -1,4 +1,9 @@
+import solver.Sudoku;
+
+import java.util.concurrent.ForkJoinPool;
+
 public class Main {
+    public static ForkJoinPool fjp=new ForkJoinPool();
 
     public static void main(String[] args) {
         //String filePath="input.txt";
