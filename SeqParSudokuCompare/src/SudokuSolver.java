@@ -62,16 +62,21 @@ public class SudokuSolver {
     }
 
     /**
-     * Risolve un solver.Sudoku ricorsivamente, completando prima le celle con meno valori legali (candidates)
+     * Risolve un solver.Sudoku in modo sequenziale (solver.sequential.SequentialSolver)
      * @param game un'istanza della classe solver.Sudoku
      */
-    public static void solve(Sudoku game){
-        Sudoku gameCopy=new Sudoku(game);
-        System.out.println("parallelo...");
+    public static void sequentialSolve(Sudoku game){
+        SequentialSolver.solve(game);
+    }
+
+    /**
+     * Risolve un solver.Sudoku in modo parallelo
+     * @param game un'istanza della classe solver.Sudoku
+     * @return il numero di solver.parallel.ParallelSolver utilizzati
+     */
+    public static long parallelSolve(Sudoku game){
         ParallelSolver p=new ParallelSolver(game);
         Main.fjp.invoke(p);
-        System.out.println("solvers: "+p.getSolvers());
-        System.out.println("sequenziale...");
-        SequentialSolver.solve(gameCopy);
+        return p.getSolvers();
     }
 }
