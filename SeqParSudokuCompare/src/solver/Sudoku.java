@@ -12,6 +12,7 @@ public class Sudoku {
     private int[][] rMatrix;
     private int[][] cMatrix;
     private int[][] qMatrix;
+    private static final int[][] quads={{0,1,2},{3,4,5},{6,7,8}};
     private BigInteger solSpace;
     private long solCount;
     private int emptyCells;
@@ -30,7 +31,7 @@ public class Sudoku {
         this.qMatrix=qMatrix;
         solSpace=BigInteger.ZERO;
         solCount=0;
-        emptyCells=0;
+        emptyCells=-1;
     }
 
     /**
@@ -116,6 +117,7 @@ public class Sudoku {
      * @return il quadrante 3x3 della cella
      */
     public static int getQuad(int row, int col){
+        /*
         if(row<3){
             if(col<3)
                 return 0;
@@ -140,6 +142,8 @@ public class Sudoku {
             else
                 return 8;
         }
+        */
+        return quads[row/3][col/3];
     }
 
     /**

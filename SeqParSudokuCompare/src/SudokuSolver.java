@@ -3,6 +3,7 @@ import solver.parallel.ParallelSolver;
 import solver.sequential.SequentialSolver;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,23 +39,32 @@ public class SudokuSolver {
                 qM[i]=new int[]{0,0,0,0,0,0,0,0,0};
             }
 
+            game=new Sudoku(m,rM,cM,qM);  //credo l'istanza di solver.Sudoku con i valori letti dal file di input
+            int eCells=0;
+            BigInteger solSpace=BigInteger.ONE;
             i=0;
             for(String s:ss){  //per ogni riga
                 j=0;
                 for(char c:s.toCharArray()){  //per ogni colonna
-                    int q= Sudoku.getQuad(i,j);  //ottengo il quadrante di riferimento
+                    int q=Sudoku.getQuad(i,j);  //ottengo il quadrante di riferimento
                     try {
                         int val=Integer.parseInt("" + c);
-                        m[i][j]=val;  //carico il valore da file, se intero, altrimenti lascio 0
-                        rM[i][val-1]=1;  //imposto 1 nell'array caratteristico della riga i nell'indice relativo al valore letto
-                        cM[j][val-1]=1;  //imposto 1 nell'array caratteristico della colonna i nell'indice relativo al valore letto
-                        qM[q][val-1]=1;  //imposto 1 nell'array caratteristico del quadrante i nell'indice relativo al valore letto
-                    }catch(Exception e){}
+                        game.setValue(i,j,val);
+                    }catch(Exception e){
+                        eCells++;
+                    }
                     j++;
                 }
                 i++;
+                game.setEmptyCells(eCells);
             }
-            game=new Sudoku(m,rM,cM,qM);  //credo l'istanza di solver.Sudoku con i valori letti dal file di input
+            for(i=0;i<9;i++){
+                for(j=0;j<9;j++){
+                    if(game.getValue(i,j)==0)
+                        solSpace=solSpace.multiply(BigInteger.valueOf(game.getCandidates(i,j).size()));
+                }
+            }
+            game.setSolSpace(solSpace);
         } catch (IOException e) {
             e.printStackTrace();
         }

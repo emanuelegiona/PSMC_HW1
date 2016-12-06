@@ -13,44 +13,57 @@ public class Main {
 
     public static void main(String[] args) {
         //String filePath="input.txt";
-        //List<String> ss=new ArrayList<>();
+        List<String> ss=new ArrayList<>();
         for(int i=0;i<args.length;i++) {
             String filePath = args[i];
             Sudoku gamePar = SudokuSolver.readSudoku(filePath);
             Sudoku gameSeq = new Sudoku(gamePar);
             System.out.println("------------\nSolving the Sudoku from: "+filePath+"\n");
+            int eCells = gamePar.getEmptyCells();
+            float fillFactor = (((float)(81-eCells)/81)*100);
+            BigInteger solSpace=gamePar.getSolSpace();
+            String s="Empty cells: " + eCells + "\nFill factor: " + (int)fillFactor + "%\n";
+            s+="Search space: " + solSpace+"\n";
+            System.out.println(s);
 
+            System.out.println("Solving in parallel...");
             long timePar = System.currentTimeMillis();
             long parSolvers = SudokuSolver.parallelSolve(gamePar);
             timePar = System.currentTimeMillis() - timePar;
 
-            int eCells = gamePar.getEmptyCells();
-            float fillFactor = (((float)(81-eCells)/81)*100);
-            BigInteger solSpace=gamePar.getSolSpace();
+            String sPar=timePar + " ms, using "+parSolvers+" parallel forked solvers\n";
+            System.out.print("-> done in " + sPar);
             long sol=gamePar.getSolCount();
+            System.out.println("Solutions: "+sol);
 
+            System.out.println("\nSolving sequentially...");
             long timeSeq = System.currentTimeMillis();
             SudokuSolver.sequentialSolve(gameSeq);
             timeSeq=System.currentTimeMillis()-timeSeq;
+            String sSeq=timeSeq+" ms\n";
+            System.out.print("-> done in "+sSeq);
+            sol=gameSeq.getSolCount();
+            System.out.println("Solutions: "+sol);
 
-            String s="Empty cells: " + eCells + "\nFill factor: " + (int)fillFactor + "%\n";
-            s+="Search space: " + solSpace+"\n";
-            s+="Parallel solver done in " + timePar + " ms, using "+parSolvers+" parallel forked solvers\n\n";
-            s+="Sequential solver done in " + timeSeq + " ms\n";
-            s+="Solutions: " + sol+"\n";
-            s+="Speedup: "+(float)timeSeq/timePar+"\n";
+            String sSU="\nSpeedup: "+(float)timeSeq/timePar+"\n";
+            System.out.print(sSU);
+
+            s+="Parallel: "+sPar;
+            s+="Sequential: "+sSeq;
+            s+="Solutions: " +sol;
+            s+=sSU;
             s+=fjp+"\n------------\n";
-            System.out.println(s);
-            //ss.add(s);
+            //System.out.println(s);
+            ss.add(s);
         }
 
         //quick export
-        /*
+        /**/
         try {
             Files.write(Paths.get("benchmark.txt"), ss, StandardCharsets.UTF_8, StandardOpenOption.APPEND,StandardOpenOption.CREATE);
         }catch(Exception e){
             e.printStackTrace();
         }
-        */
+        /**/
     }
 }
