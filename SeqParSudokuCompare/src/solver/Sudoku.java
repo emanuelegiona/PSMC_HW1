@@ -117,32 +117,6 @@ public class Sudoku {
      * @return il quadrante 3x3 della cella
      */
     public static int getQuad(int row, int col){
-        /*
-        if(row<3){
-            if(col<3)
-                return 0;
-            else if(col<6)
-                return 1;
-            else
-                return 2;
-        }
-        else if(row<6){
-            if(col<3)
-                return 3;
-            else if(col<6)
-                return 4;
-            else
-                return 5;
-        }
-        else{
-            if(col<3)
-                return 6;
-            else if(col<6)
-                return 7;
-            else
-                return 8;
-        }
-        */
         return quads[row/3][col/3];
     }
 

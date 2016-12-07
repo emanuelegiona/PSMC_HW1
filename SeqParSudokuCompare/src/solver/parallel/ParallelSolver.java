@@ -108,42 +108,22 @@ public class ParallelSolver extends RecursiveAction{
     }
 
     public void compute(){
-        //System.out.println(game);
-        //BigInteger n=BigInteger.ONE;
-        //int eCells=0;
-        /*
+        //se la griglia di gioco del Sudoku game è completa, incrementa il numero di soluzioni
         if(game.getEmptyCells()==0){
-            game.setSolCount(1);
+            game.setSolCount(game.getSolCount()+1);
             return;
         }
-        */
+
+        //se la griglia di gioco del Sudoku game ha meno di seqCutoff celle vuote, passa all'algoritmo sequenziale
         if(game.getEmptyCells()<seqCutoff){
             SequentialSolver.solve(game);
             return;
         }
+
         int row=-1;
         int col=-1;
         Set<Integer> candidates=new HashSet<>();  //mantiene i candidati della cella con meno candidati nel solver.Sudoku game
 
-        /*
-        //standard search
-        for(int i=0;i<9;i++){
-            for(int j=0;j<9;j++){
-                if(game.getValue(i,j)==0) {
-                    Set<Integer> currCandidates = game.getCandidates(i, j);  //ottengo i candidati della cella vuota
-                    if (currCandidates.size() < candidates.size() || candidates.size() == 0) {  //controllo se è la prima cella vuota oppure è la cella con il minor numero di candidati
-                        row = i;
-                        col = j;
-                        candidates = currCandidates;
-                    }
-                }
-            }
-        }
-        //System.out.println("("+row+","+col+")");
-        */
-
-
-        /**/
         //parallel search
         List<ForkJoinTask<Cell>> minCells=new ArrayList<>();
         //per ogni quadrante, cerco la cella vuota con il minor numero di candidati in parallelo
@@ -167,17 +147,6 @@ public class ParallelSolver extends RecursiveAction{
                 candidates=c.getCandidates();
             }
         }
-        //System.out.println("min: "+min);
-        //System.out.println("cands: "+candidates);
-        //System.out.println("row: "+row+" col:"+col+" cand: "+candidates);
-        /**/
-
-        /**/
-        if(row==-1 && col==-1) {  //se non c'è alcuna cella vuota, il solver.Sudoku game ha una soluzione legale
-            game.setSolCount(game.getSolCount()+1);
-            return;
-        }
-        /**/
 
         List<ParallelSolver> tasks=new ArrayList<>();
         for(int choice:candidates){  //itero su tutti i candidati della cella con il minor numero di candidati
@@ -190,7 +159,7 @@ public class ParallelSolver extends RecursiveAction{
         for(ParallelSolver ps:tasks){
             ps.join();
             game.setSolCount(game.getSolCount()+ps.getGame().getSolCount());
-            solvers+=ps.solvers;
+            solvers+=ps.getSolvers();
         }
     }
 

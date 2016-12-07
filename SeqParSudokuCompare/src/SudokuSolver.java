@@ -46,7 +46,6 @@ public class SudokuSolver {
             for(String s:ss){  //per ogni riga
                 j=0;
                 for(char c:s.toCharArray()){  //per ogni colonna
-                    int q=Sudoku.getQuad(i,j);  //ottengo il quadrante di riferimento
                     try {
                         int val=Integer.parseInt("" + c);
                         game.setValue(i,j,val);
