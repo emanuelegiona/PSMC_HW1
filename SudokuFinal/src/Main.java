@@ -10,7 +10,8 @@ import static java.lang.System.out;
 
 public class Main {
     public static final ForkJoinPool fjPool = new ForkJoinPool();
-    private static final int CUTOFF=50;
+    private static final int CUTOFF=0;
+    private static final int ripetizioni=5;
 
     public static void main(String[] args){
         int solutionsSeq;
@@ -30,8 +31,13 @@ public class Main {
             out.println();
             out.println("solving in parallel...");
             time = System.currentTimeMillis();
-            solutionsPar = SolverAssistant.parallelSolve(matrix,CUTOFF);
+            solutionsPar=new long[]{0,0};
+            for(int i=0;i<ripetizioni;i++) {
+                Matrix app=new Matrix(matrix.matrixCopy());
+                solutionsPar = SolverAssistant.parallelSolve(app, CUTOFF);
+            }
             timePar = System.currentTimeMillis() - time;
+            timePar/=5;
 			time=timePar;
             m = ( timePar / 1000 ) / 60;
             timePar -= m * 60 * 1000;
@@ -44,10 +50,15 @@ public class Main {
             out.println();
 			sExport+="parallel: "+timePar+" ms, using "+solutionsPar[1]+" parallel forked solvers\n";
             out.println("solving sequentially...");
-            time = System.currentTimeMillis();
             Matrix sMatrix = new Matrix(SolverAssistant.readFile(arg));
-            solutionsSeq = SolverAssistant.sequentialSolve(sMatrix);
+            time = System.currentTimeMillis();
+            solutionsSeq=0;
+            for(int i=0;i<ripetizioni;i++) {
+                Matrix app=new Matrix(sMatrix.matrixCopy());
+                solutionsSeq = SolverAssistant.sequentialSolve(app);
+            }
             timeSeq = System.currentTimeMillis() - time;
+            timeSeq/=5;
 			time=timeSeq;
             m = ( timeSeq / 1000 ) / 60;
             timeSeq -= m * 60 * 1000;
@@ -61,7 +72,7 @@ public class Main {
 			sExport+=speed;
 
 			try{
-            out.println("Speedup: " + timeSeq / timePar +"."+ timeSeq % timePar);
+            out.println("Speedup: " + timeSeq / timePar +"."+ timeSeq % timePar+"\n");
 			}catch(Exception e){}
 			ss.add(sExport);
         }

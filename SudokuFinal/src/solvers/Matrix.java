@@ -77,7 +77,7 @@ public class Matrix {
         return true;
     }
 
-    protected Integer[][] matrixCopy(){
+    public Integer[][] matrixCopy(){
         Integer[][] ret = new Integer[9][9];
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++)
