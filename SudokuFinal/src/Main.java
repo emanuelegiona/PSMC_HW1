@@ -11,7 +11,7 @@ import static java.lang.System.out;
 public class Main {
     public static final ForkJoinPool fjPool = new ForkJoinPool();
     private static final int CUTOFF=0;
-    private static final int ripetizioni=5;
+    private static final int cycles =10;
 
     public static void main(String[] args){
         int solutionsSeq;
@@ -32,12 +32,12 @@ public class Main {
             out.println("solving in parallel...");
             time = System.currentTimeMillis();
             solutionsPar=new long[]{0,0};
-            for(int i=0;i<ripetizioni;i++) {
+            for(int i = 0; i< cycles; i++) {
                 Matrix app=new Matrix(matrix.matrixCopy());
                 solutionsPar = SolverAssistant.parallelSolve(app, CUTOFF);
             }
             timePar = System.currentTimeMillis() - time;
-            timePar/=5;
+            timePar/= cycles;
 			time=timePar;
             m = ( timePar / 1000 ) / 60;
             timePar -= m * 60 * 1000;
@@ -53,12 +53,12 @@ public class Main {
             Matrix sMatrix = new Matrix(SolverAssistant.readFile(arg));
             time = System.currentTimeMillis();
             solutionsSeq=0;
-            for(int i=0;i<ripetizioni;i++) {
+            for(int i = 0; i< cycles; i++) {
                 Matrix app=new Matrix(sMatrix.matrixCopy());
                 solutionsSeq = SolverAssistant.sequentialSolve(app);
             }
             timeSeq = System.currentTimeMillis() - time;
-            timeSeq/=5;
+            timeSeq/= cycles;
 			time=timeSeq;
             m = ( timeSeq / 1000 ) / 60;
             timeSeq -= m * 60 * 1000;
