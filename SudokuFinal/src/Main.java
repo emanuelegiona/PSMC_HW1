@@ -72,7 +72,7 @@ public class Main {
 			sExport+=speed;
 
 			try{
-            out.println("Speedup: " + timeSeq / timePar +"."+ timeSeq % timePar+"\n");
+            out.println("Speedup: " + (float)timeSeq/timePar +"\n");
 			}catch(Exception e){}
 			ss.add(sExport);
         }
